@@ -23,14 +23,14 @@ function unitSection(_value, _unit) {
   return div({className: "mw-50 ma1"}
     , [
       input({
-        className: "w-100 pa2 mv2 br2 dim"
+        className: "w-100 pa2 mv2 br2 ba b--black-40 dim"
         , type: "text"
         , value: _value
         // oninput triggers call to update fn and passes msg and updated state
         // , oninput: e => _dispatch()
       })
       , select(
-        {className: "w-100 pa2 mv2 br2 ba bg--black-40 dim input-reset"}
+        {className: "w-100 pa2 mv2 br2 ba b--black-40 dim input-reset"}
         // unit select options
         , unitOptions(_unit)
       )
