@@ -1,8 +1,8 @@
 const initModel = {
   leftInputValue: 0 // fn
-  , leftInputType: "celcius" // enum
+  , leftInputType: "Celcius" // enum
   , rightInputValue: 32 // fn
-  , rightInputType: "fahrenheit" //
+  , rightInputType: "Fahrenheit" //
   , isLeftInputSource: true
 }
 
