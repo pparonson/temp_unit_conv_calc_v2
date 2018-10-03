@@ -5,6 +5,8 @@ import * as R from "ramda"
 import {
   leftInputValueMsg
   , rightInputValueMsg
+  , leftInputUnitMsg
+  , rightInputUnitMsg
 } from "./update"
 
 const {
@@ -24,7 +26,7 @@ function unitOptions(_selected) {
     option({value: _item, selected: _selected === _item}, _item), UNITS)
 }
 
-function unitSection(_dispatch, _value, _unit, _inputMsg) {
+function unitSection(_dispatch, _value, _unit, _inputMsg, _inputUnit) {
   return div({className: "mw-50 ma1"}
     , [
       input({
@@ -34,10 +36,12 @@ function unitSection(_dispatch, _value, _unit, _inputMsg) {
         // oninput triggers call to update fn and passes msg and updated state
         , oninput: e => _dispatch( _inputMsg(e.target.value) )
       })
-      , select(
-        {className: "w-100 pa2 mv2 br2 ba b--black-40 bg-white input-reset dim"}
-        // unit select options
-        , unitOptions(_unit)
+      , select({
+        className: "w-100 pa2 mv2 br2 ba b--black-40 bg-white input-reset dim"
+        , onchange: e => _dispatch( _inputUnit(e.target.value) )
+      }
+      // unit select options
+      , unitOptions(_unit)
       )
     ])
 }
@@ -51,13 +55,15 @@ function view(_dispatch, _model) {
         unitSection(
           _dispatch
           , _model.leftInputValue
-          , _model.leftInputType
+          , _model.leftInputUnit
           , leftInputValueMsg
+          , leftInputUnitMsg
         )
         , unitSection(_dispatch
           , _model.rightInputValue
-          , _model.rightInputType
+          , _model.rightInputUnit
           , rightInputValueMsg
+          , rightInputUnitMsg
         )
       ])
       , pre( JSON.stringify(_model, null, 2) )
