@@ -22,37 +22,54 @@ export function rightInputValueMsg(_value) {
 function update(_msg, _model) {
   if (_msg.type === "LEFT_INPUT_VALUE") {
     // clear the input fields
+    // if (_msg.leftInputValue === "") {
+    //   return {
+    //     ..._model
+    //     , leftInputValue: ""
+    //     , rightInputValue: ""
+    //     , isLeftInputSource: true
+    //   }
+    // }
 
     // return new model with updated input values
-    const _value = toInt(_msg.leftInputValue)
+    const value = toInt(_msg.leftInputValue)
     return {
       // spread the new obj and overwrite the value
       ..._model
-      , leftInputValue: _value
+      , leftInputValue: value
       , isLeftInputSource: true
     }
   }
   if (_msg.type === "RIGHT_INPUT_VALUE") {
     // clear the input fields
+    // if (_msg.rightInputValue === "") {
+    //   return {
+    //     ..._model
+    //     , leftInputValue: ""
+    //     , rightInputValue: ""
+    //     , isLeftInputSource: false
+    //   }
+    // }
 
     // return new model with updated input values
-    const _value = toInt(_msg.rightInputValue)
+    const value = toInt(_msg.rightInputValue)
     return {
       // spread the new obj and overwrite the value
       ..._model
-      , rightInputValue: _value
+      , rightInputValue: value
       , isLeftInputSource: false
     }
   }
+
+  // default case
   return _model
 }
 
 // helpers
-function toInt() {
-  return R.compose(
-    R.defaultTo0
-    , parseInt
-  )
-}
+const toInt = R.compose(
+  R.defaultTo(0)
+  , parseInt
+)
+
 
 export default update

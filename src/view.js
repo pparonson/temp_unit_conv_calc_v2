@@ -5,7 +5,7 @@ import * as R from "ramda"
 import {
   leftInputValueMsg
   , rightInputValueMsg
-} from "update"
+} from "./update"
 
 const {
   pre
@@ -32,7 +32,7 @@ function unitSection(_dispatch, _value, _unit, _inputMsg) {
         , type: "text"
         , value: _value
         // oninput triggers call to update fn and passes msg and updated state
-        , oninput: e => _dispatch(_inputMsg( e.target.value() ))
+        , oninput: e => _dispatch( _inputMsg(e.target.value) )
       })
       , select(
         {className: "w-100 pa2 mv2 br2 ba b--black-40 bg-white input-reset dim"}
