@@ -49,10 +49,12 @@ function update(_msg, _model) {
 
     // return new model with updated input values
     const value = toInt(_msg.leftInputValue)
+    const conversion = convertValue(value, _model)
     return {
       // spread the new obj and overwrite the value
       ..._model
       , leftInputValue: value
+      , rightInputValue: conversion
       , isLeftInputSource: true
     }
   }
@@ -69,9 +71,11 @@ function update(_msg, _model) {
 
     // return new model with updated input values
     const value = toInt(_msg.rightInputValue)
+    const conversion = convertValue(value, _model)
     return {
       // spread the new obj and overwrite the value
       ..._model
+      , leftInputValue: conversion
       , rightInputValue: value
       , isLeftInputSource: false
     }
@@ -101,5 +105,91 @@ const toInt = R.compose(
   , parseInt
 )
 
+function convertValue(_value, _model) {
+  if (_model.isLeftInputSource) {
+    if (_model.leftInputUnit === _model.rightInputUnit) {
+      return _value
+    }
+    if (_model.leftInputUnit === "Celcius" &&
+      _model.rightInputUnit === "Fahrenheit") {
+      return celciusToFahrenheit(_value)
+    }
+    if (_model.leftInputUnit === "Fahrenheit" &&
+      _model.rightInputUnit === "Celcius") {
+      return fahrenheitToCelcius(_value)
+    }
+    if (_model.leftInputUnit === "Celcius" &&
+      _model.rightInputUnit === "Kelvin") {
+      return celciusToKelvin(_value)
+    }
+    if (_model.leftInputUnit === "Kelvin" &&
+      _model.rightInputUnit === "Celcius") {
+      return kelvinToCelcius(_value)
+    }
+    if (_model.leftInputUnit === "Fahrenheit" &&
+      _model.rightInputUnit === "Kelvin") {
+      return fahrenheitToKelvin(_value)
+    }
+    if (_model.leftInputUnit === "Kelvin" &&
+      _model.rightInputUnit === "Fahrenheit") {
+      return kelvinToFahrenheit(_value)
+    }
+  } else {
+    if (_model.leftInputUnit === _model.rightInputUnit) {
+      return _value
+    }
+    if (_model.leftInputUnit === "Celcius" &&
+      _model.rightInputUnit === "Fahrenheit") {
+      return celciusToFahrenheit(_value)
+    }
+    if (_model.leftInputUnit === "Fahrenheit" &&
+      _model.rightInputUnit === "Celcius") {
+      return fahrenheitToCelcius(_value)
+    }
+    if (_model.leftInputUnit === "Celcius" &&
+      _model.rightInputUnit === "Kelvin") {
+      return celciusToKelvin(_value)
+    }
+    if (_model.leftInputUnit === "Kelvin" &&
+      _model.rightInputUnit === "Celcius") {
+      return kelvinToCelcius(_value)
+    }
+    if (_model.leftInputUnit === "Fahrenheit" &&
+      _model.rightInputUnit === "Kelvin") {
+      return fahrenheitToKelvin(_value)
+    }
+    if (_model.leftInputUnit === "Kelvin" &&
+      _model.rightInputUnit === "Fahrenheit") {
+      return kelvinToFahrenheit(_value)
+    }
+  }
+}
+
+function celciusToFahrenheit(_value) {
+  return (9/5) * _value + 32
+}
+
+function fahrenheitToCelcius(_value) {
+  return (5/9) * (_value - 32)
+}
+
+function celciusToKelvin(_value) {
+  return _value + 273.15
+}
+
+function kelvinToCelcius(_value) {
+  return _value - 273.15
+}
+
+// point-free
+const fahrenheitToKelvin = R.compose(
+  celciusToKelvin
+  , fahrenheitToCelcius
+)
+
+const kelvinToFahrenheit = R.compose(
+  celciusToFahrenheit
+  , kelvinToCelcius
+)
 
 export default update
